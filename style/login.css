@@ -1,0 +1,31 @@
+body {
+    background-color: whitesmoke;
+    font-family: georgia, sans-serif;
+    display: flex;
+    background-size: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: skyblue;
+    padding: 30px;
+    margin: 12px;
+    border-radius: 20px;
+    width: 200px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
