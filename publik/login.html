@@ -7,7 +7,6 @@
     <title>Login</title>
     <link rel="stylesheet" href="../style/login.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 </head>
 
 <body>
@@ -25,32 +24,7 @@
         <p>Don't have an account? <a href="register.html">Register</a></p>
     </div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const user = document.getElementById('loginUsername').value;
-            const pass = document.getElementById('loginPassword').value;
-            if (user && pass) {
-                alert(`Welcome back, ${user}!`);
-            } else {
-                alert("Please fill in all fields.");
-            }
-        });
-
-        function togglePassword(id, icon) {
-            const input = document.getElementById(id);
-            if (input.type === "password") {
-                input.type = "text";
-                icon.classList.remove("fa-eye");
-                icon.classList.add("fa-eye-slash");
-            } else {
-                input.type = "password";
-                icon.classList.remove("fa-eye-slash");
-                icon.classList.add("fa-eye");
-            }
-        }
-
-    </script>
+    <script src="../config/login-regis.js"></script>
 </body>
 
 </html>

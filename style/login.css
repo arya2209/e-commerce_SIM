@@ -89,7 +89,6 @@ a:hover {
 
 .password-field input {
     padding-right: 40px;
-    /* biar ada ruang buat ikon mata */
 }
 
 .toggle-password {
@@ -100,4 +99,13 @@ a:hover {
     transform: translateY(-50%);
     cursor: pointer;
     color: #999;
+}
+
+/* REGISTER */
+.regis-container {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    width: 320px;
 }
