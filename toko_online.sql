@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 01, 2025 at 01:16 PM
+-- Generation Time: Jun 02, 2025 at 04:49 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -57,6 +57,7 @@ CREATE TABLE `produk` (
 CREATE TABLE `user` (
   `id` int NOT NULL,
   `nama` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -64,8 +65,8 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `nama`, `password`) VALUES
-(1, 'admin', '$2a$12$qwXWM0SzND899kJr4zHjVOJgqMM0X9FqcxEU.lQWiVJdjrRGFkYK.');
+INSERT INTO `user` (`id`, `nama`, `email`, `password`) VALUES
+(1, 'admin', '', '$2a$12$qwXWM0SzND899kJr4zHjVOJgqMM0X9FqcxEU.lQWiVJdjrRGFkYK.');
 
 --
 -- Indexes for dumped tables
@@ -89,7 +90,8 @@ ALTER TABLE `produk`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -111,7 +113,7 @@ ALTER TABLE `produk`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
