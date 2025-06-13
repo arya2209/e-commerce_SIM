@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    require "../koneksi.php";
+session_start();
+require "../koneksi.php";
 ?>
 
 <!DOCTYPE html>
@@ -9,86 +9,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <style>
-    .main{
-        /* background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../image/clark-street-mercantile-P3pI6xzovu0-unsplash.jpg); */
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
+    .main {
         height: 100vh;
-        
+        background-color: #f8f9fa;
     }
 
-    .login-box{
-        height: 300px;
-        width: 500px;
-        box-sizing: border-box;
+    .login-box {
+        width: 400px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
         border-radius: 10px;
-        background: rgba(255, 255, 255, 0.85);
-
     }
-
 </style>
 
 <body>
-    <div class="main d-flex flex-column justify-content-center align-items-center ">
-        <div class="login-box p-5 shadow">
-            <h2 class="text-center">Login</h2>
-            <form action="" method="post">
-                <div class="mb-3">
-                    <input type="text" class="form-control" name="username" id="username" placeholder="Username">
-                </div>
-                <div>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                </div>
-                <div>
-                    <button class="btn btn-primary form-control mt-3" type="submit" name="loginbtn" >Login</button>
-                </div>
-            </form>
-             <p class="text-center">Don't have an Account? <a href="register.php">Register</a></p>
-        </div>
+<div class="main d-flex justify-content-center align-items-center">
+    <div class="login-box shadow">
+        <h2 class="text-center mb-4">Login</h2>
+        <form action="" method="post">
+            <div class="mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+            <button class="btn btn-primary w-100" type="submit" name="loginbtn">Login</button>
+        </form>
+        <p class="text-center mt-3">Don't have an account? <a href="register.php">Register</a></p>
 
-        <div class="mt-3" style="width: 500px">
-            <?php
-            if(isset($_POST['loginbtn'])){
-                $username = htmlspecialchars($_POST['username']);
-                $password = htmlspecialchars($_POST['password']);
+        <!-- Alert -->
+        <?php
+        if (isset($_POST['loginbtn'])) {
+            $username = htmlspecialchars($_POST['username']);
+            $password = htmlspecialchars($_POST['password']);
 
-                $query = mysqli_query($mysqli, "SELECT * FROM user WHERE nama='$username'");
-                $countdata = mysqli_num_rows($query);
-                $data = mysqli_fetch_array($query);
+            $query = mysqli_query($mysqli, "SELECT * FROM user WHERE nama='$username'");
+            $count = mysqli_num_rows($query);
+            $data = mysqli_fetch_assoc($query);
 
-                if($countdata>0){
-                    if (password_verify($password , $data['password'])) {
-                        $_SESSION['nama'] = $data['nama'];
-                        $_SESSION['login'] = true;
-                        header('location: ../adminpanel');
+            if ($count > 0) {
+                if (password_verify($password, $data['password'])) {
+                    $_SESSION['login'] = true;
+                    $_SESSION['nama'] = $data['nama'];
+                    $_SESSION['role'] = $data['role'];
+
+                    // Redirect based on role
+                    if ($data['role'] == 'admin') {
+                        header("Location: ../adminpanel");
+                    } else {
+                        header("Location: ../home.php");
                     }
-                    else{
-                     ?>
-                        <div class="alert alert-warning text-center" role="alert">
-                            Password Salah
-                        </div>
-                     <?php
-                    }
+                    exit;
+                } else {
+                    echo '<div class="alert alert-warning text-center mt-3">Password salah</div>';
                 }
-                else{
-                    ?>
-                    <div class="alert alert-warning text-center" role="alert">
-                        Akun tidak tersedia 
-                    </div>
-                     <?php
-                };
+            } else {
+                echo '<div class="alert alert-warning text-center mt-3">Akun tidak ditemukan</div>';
             }
-            ?>
-        </div>
-        
-
+        }
+        ?>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
