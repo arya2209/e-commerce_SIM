@@ -53,7 +53,6 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
 
             <form action="" method="post">
                 <div>
-                    <label for="kategori">Kategori</label>
                     <input type="text" id="kategori" name="kategori" class="form-control" placeholder="Input Nama Kategori" required>
                 </div>
                 <div class="mt-3">

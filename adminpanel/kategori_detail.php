@@ -42,7 +42,7 @@ $data = mysqli_fetch_array($query);
 
                 <div class="mt-5 d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary" name="editBtn">Edit</button>
-                    <button type="submit" class="btn btn-danger" name="deleteBtn">Delete</button>
+                    <button type="submit" class="btn btn-danger" name="deleteBtn">Hapus</button>
                 </div>
             </form>
 

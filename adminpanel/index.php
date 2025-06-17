@@ -35,6 +35,10 @@
     .no-decoration{
         text-decoration:none;
     }
+    .summary-order{
+        background-color: #FFB823;
+        border-radius: 15px;
+    }
 
    body{
         background-color: #e7f2f8;    
@@ -79,6 +83,20 @@
                                 <h3 class="fs-2">Produk</h3>
                                 <p class="fs-4"><?php echo $jumlahProduk; ?> Produk</p>
                                 <p><a href="produk.php" class="text-white no-decoration">Lihat Detail</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 co-12 mb-3">
+                    <div class="summary-order p-3">
+                        <div class="row">
+                            <div class="col-6 mt-3">
+                            <i class="fa-solid fa-cart-shopping fa-7x text-black-50"></i>
+                            </div>
+                            <div class="col-6 text-white">
+                                <h3 class="fs-2">Order</h3>
+                                <p class="fs-4"> Order</p>
+                                <p><a href="order.php" class="text-white no-decoration">Lihat Detail</a></p>
                             </div>
                         </div>
                     </div>

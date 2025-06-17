@@ -1,6 +1,8 @@
 <?php
 session_start();
 require "../koneksi.php";
+
+
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +58,7 @@ require "../koneksi.php";
                     $_SESSION['login'] = true;
                     $_SESSION['nama'] = $data['nama'];
                     $_SESSION['role'] = $data['role'];
+                    $_SESSION['user_id'] = $data['id'];
 
                     // Redirect based on role
                     if ($data['role'] == 'admin') {
