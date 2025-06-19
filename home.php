@@ -36,6 +36,7 @@ require "koneksi.php"; // Harus di paling atas file
             <ul class="navbar-nav align-items-center gap-4">
                 <li class="nav-item"><a class="nav-link" href="home.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="item.php">Item</a></li>
+                <li class="nav-item"><a class="nav-link" href="order.php">Order</a></li>
                 <li class="nav-item"><a class="nav-link" href="cart.php">
                 <i class="fas fa-cart-shopping me-1"></i>Cart</a></li>
                 <?php if (isset($_SESSION['nama'])): ?>

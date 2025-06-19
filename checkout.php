@@ -71,6 +71,14 @@ while ($row = mysqli_fetch_assoc($query)) {
                 <label>Alamat Pengiriman</label>
                 <textarea name="alamat" class="form-control" required></textarea>
             </div>
+            <div class="mb-3">
+                <label>Nomor Telepon</label>
+                <input type="text" name="telepon" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
             <input type="hidden" name="total_harga" value="<?= $total_harga; ?>">
             <button type="submit" class="btn btn-success">Konfirmasi & Bayar</button>
         </form>

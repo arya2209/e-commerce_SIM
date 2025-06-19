@@ -104,8 +104,8 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
         <div class="mt-3">
             <h2>List Kategori</h2>
             <div class="table-responsive mt-5">
-                <table class="table">
-                    <thead>
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
                         <tr>
                             <th>No.</th>
                             <th>Nama</th>

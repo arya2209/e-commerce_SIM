@@ -1,73 +1,75 @@
 <?php
-    session_start();
-    require "koneksi.php";
+session_start();
+require "koneksi.php";
 
-    $nama =htmlspecialchars($_GET['nama']);
+$nama = htmlspecialchars($_GET['nama']);
+$queryProduk = mysqli_query($mysqli, "SELECT * FROM produk WHERE nama='$nama'");
+$produk = mysqli_fetch_array($queryProduk);
 
-    $queryProduk = mysqli_query($mysqli, "SELECT * FROM produk WHERE nama='$nama'");
-    $produk = mysqli_fetch_Array($queryProduk);
-
-    $queryProdukTerkait = mysqli_query($mysqli, "SELECT * FROM produk WHERE kategori_id='$produk[kategori_id]' AND id!='$produk[id]' LIMIT 4");
-
+$queryProdukTerkait = mysqli_query($mysqli, "SELECT * FROM produk WHERE kategori_id='$produk[kategori_id]' AND id!='$produk[id]' LIMIT 4");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <!-- Bootstrap -->
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-     <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/style.css">
     <meta charset="UTF-8">
+    <title>Luxia | Detail Produk</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxia | Detail Item</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
-    <!-- detail produk -->
-    <div class="container-fluid py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5 mb-5">
-                    <img src="image/<?php echo $produk['foto']; ?>" class="w-100" alt="">
+<!-- Detail Produk -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-5 mb-4">
+            <img src="image/<?= $produk['foto']; ?>" class="img-fluid" alt="<?= $produk['nama']; ?>">
+        </div>
+        <div class="col-lg-6 offset-lg-1">
+            <h2><?= $produk['nama']; ?></h2>
+            <p><?= $produk['detail']; ?></p>
+            <h4 class="text-danger">Rp <?= number_format($produk['harga'], 0, ',', '.'); ?></h4>
+            <p>Stok tersedia: <strong><?= $produk['stok']; ?></strong></p>
+
+            <!-- Form Tambah ke Keranjang -->
+            <form action="add_to_cart.php" method="GET">
+                <input type="hidden" name="produk_id" value="<?= $produk['id']; ?>">
+                <input type="hidden" name="nama" value="<?= $produk['nama']; ?>">
+
+                <div class="input-group mb-3" style="max-width: 120px;">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-minus">-</button>
+                    <input type="text" name="jumlah" id="jumlah" class="form-control text-center" value="1" data-stok="<?= $produk['stok']; ?>" readonly>
+                    <button class="btn btn-outline-secondary" type="button" id="btn-plus">+</button>
                 </div>
-                <div class="col-lg-6 offset-lg-1">
-                    <h1><?php echo $produk['nama']; ?></h1>
-                    <p class="fs-5"><?php echo $produk['detail']; ?></p>
-                    <p class="text-harga">
-                    Rp <?php echo $produk['harga']; ?>
-                    </p>
-                    <p class="fs-5">Stok : <strong><?php echo $produk['stok']; ?></strong></p>
-                </div>
-            </div>
+
+                <button type="submit" class="btn btn-primary">Tambah ke Keranjang</button>
+            </form>
         </div>
     </div>
+</div>
 
-    <!-- produk terkait -->
-    <div class="container-fluid py-5 warna2">
-        <div class="container">
-            <h2 class="text-center text-white mb-5">Produk terkait</h2>
 
-            <div class="row">
-                <?php while($data = mysqli_fetch_Array($queryProdukTerkait)){ ?>
-                <div class="col-md-6 col-lg-3 mb-3">
-                    <a href="produk_detail.php?nama=<?php echo $data['nama'] ?>">
-                        <img src="image/<?php echo $data['foto']; ?>" class="img-fluid img-thumbnail produk-terkait-image" 
-                        alt="">
-                    </a>
-                </div>
-                <?php } ?>
-            </div>
-        </div>
-    </div>
+<!-- JavaScript -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnMinus = document.getElementById("btn-minus");
+        const btnPlus = document.getElementById("btn-plus");
+        const inputJumlah = document.getElementById("jumlah");
+        const stok = parseInt(inputJumlah.dataset.stok);
 
-     <!-- footer -->
-     <?php require "footer.php" ?>    
+        btnMinus.addEventListener("click", function () {
+            let jumlah = parseInt(inputJumlah.value);
+            if (jumlah > 1) inputJumlah.value = jumlah - 1;
+        });
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-    </script>
+        btnPlus.addEventListener("click", function () {
+            let jumlah = parseInt(inputJumlah.value);
+            if (jumlah < stok) inputJumlah.value = jumlah + 1;
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

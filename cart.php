@@ -20,12 +20,17 @@ $user_id = $_SESSION['user_id'];
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <style>
-         body {
-            background-color:#e7f2f8;
-            padding: 20px;
-        }
+    body {
+        background-color: #e7f2f8;
+        padding: 20px;
+    }
+    .table td a.btn {
+        vertical-align: middle;
+    }
 </style>
+
 <body>
 
 <!-- Navbar -->
@@ -36,8 +41,9 @@ $user_id = $_SESSION['user_id'];
             <ul class="navbar-nav align-items-center gap-4">
                 <li class="nav-item"><a class="nav-link" href="home.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="item.php">Item</a></li>
+                <li class="nav-item"><a class="nav-link" href="order.php">Order</a></li>
                 <li class="nav-item"><a class="nav-link" href="cart.php">
-                <i class="fas fa-cart-shopping me-1"></i>Cart</a></li>
+                    <i class="fas fa-cart-shopping me-1"></i>Cart</a></li>
                 <?php if (isset($_SESSION['nama'])): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
@@ -80,9 +86,18 @@ $user_id = $_SESSION['user_id'];
                                         WHERE c.user_id = $user_id");
 
         $total_harga = 0;
+        $stok_kurang = false;
+        $pesan_error = "";
+
         while ($cart = mysqli_fetch_assoc($query)) :
             $subtotal = $cart['harga'] * $cart['quantity'];
             $total_harga += $subtotal;
+
+            $stok_produk = mysqli_fetch_assoc(mysqli_query($mysqli, "SELECT stok FROM produk WHERE id = {$cart['produk_id']}"))['stok'];
+            if ($cart['quantity'] > $stok_produk) {
+                $stok_kurang = true;
+                $pesan_error .= "Stok produk <b>{$cart['nama']}</b> hanya tersedia <b>$stok_produk</b>, tapi Anda memesan <b>{$cart['quantity']}</b>.<br>";
+            }
         ?>
             <tr>
                 <td><img src="image/<?= $cart['foto']; ?>" width="80" alt="<?= $cart['nama']; ?>"></td>
@@ -95,21 +110,29 @@ $user_id = $_SESSION['user_id'];
                 </td>
                 <td>Rp<?= number_format($subtotal, 0, ',', '.'); ?></td>
                 <td>
-                    <a href="checkout.php" class="btn btn-sm btn-primary">Checkout</a>
                     <button class="btn btn-sm btn-danger btn-hapus" data-id="<?= $cart['id']; ?>">Hapus</button>
                 </td>
             </tr>
         <?php endwhile; ?>
+
         <tr>
             <td colspan="4" class="text-end fw-bold">Total Harga</td>
-            <td colspan="2" class="fw-bold">Rp<?= number_format($total_harga, 0, ',', '.'); ?></td>
+            <td class="fw-bold">Rp<?= number_format($total_harga, 0, ',', '.'); ?></td>
+            <td>
+                <?php if ($stok_kurang): ?>
+                    <button class="btn btn-sm btn-danger" id="btnStokKurang">Checkout</button>
+                <?php else: ?>
+                    <a href="checkout.php" class="btn btn-sm btn-primary">Checkout</a>
+                <?php endif; ?>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<!-- SweetAlert Delete Script -->
+<!-- SweetAlert Script -->
 <script>
+    // Tombol hapus
     document.querySelectorAll('.btn-hapus').forEach(button => {
         button.addEventListener('click', function () {
             const id = this.dataset.id;
@@ -128,9 +151,23 @@ $user_id = $_SESSION['user_id'];
             });
         });
     });
+
+    // Tombol checkout dicegah jika stok tidak cukup
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnStokKurang = document.getElementById("btnStokKurang");
+        if (btnStokKurang) {
+            btnStokKurang.addEventListener("click", function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Stok Tidak Cukup',
+                    html: <?= json_encode($pesan_error) ?>,
+                    confirmButtonText: 'OK'
+                });
+            });
+        }
+    });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
