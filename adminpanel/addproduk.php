@@ -102,7 +102,7 @@ function generateRandomString($length = 10)
                             echo "<script>Swal.fire('Gagal', 'File tidak boleh lebih dari 500kb', 'warning');</script>";
                             exit;
                         }
-                        if (!in_array($imageFileType, ['jpg', 'png', 'gif'])) {
+                        if (!in_array($imageFileType, ['jpg', 'png', 'jpeg'])) {
                             echo "<script>Swal.fire('Gagal', 'File wajib bertipe jpg, png, atau gif', 'warning');</script>";
                             exit;
                         }

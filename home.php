@@ -4,85 +4,203 @@ require "koneksi.php"; // Harus di paling atas file
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Luxia</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        body {
-            background-color:#e7f2f8;
-            padding: 20px;
-        }
-        .navbar {
-            background: rgba(255, 255, 255, 0.8);
-        }
-        .navbar-nav .nav-link {
-            transition: color 0.3s;
-        }
-        .navbar-nav .nav-link:hover {
-            color: blue !important;
-        }
-    </style>
+    <link rel="stylesheet" href="home.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg shadow-sm py-3 fixed-top">
+        <div class="container">
+            <!-- Logo dan Brand -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="image/luxia_fix.png" alt="Luxia Logo" width="100" height="43" class="">
+            </a>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg shadow-sm py-3 sticky-top bg-light">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="#">Luxia</a>
-        <div class="collapse navbar-collapse justify-content-end">
-            <ul class="navbar-nav align-items-center gap-4">
-                <li class="nav-item"><a class="nav-link" href="home.php">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="item.php">Item</a></li>
-                <li class="nav-item"><a class="nav-link" href="cart.php">
-                <i class="fas fa-cart-shopping me-1"></i>Cart</a></li>
-                <?php if (isset($_SESSION['nama'])): ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="fas fa-user"></i> <?= $_SESSION['nama']; ?>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <?php if ($_SESSION['role'] === 'admin'): ?>
-                                <li><a class="dropdown-item" href="./adminpanel/index.php">Dashboard Admin</a></li>
-                            <?php endif; ?>
-                            <li><a class="dropdown-item" href="./adminpanel/logout.php">Logout</a></li>
-                        </ul>
+            <!-- Toggle button for mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation links -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-4">
+                    <li class="nav-item">
+                        <strong><a class="nav-link text-white fs-5" href="home.php">Beranda</a></strong>
                     </li>
-                <?php else: ?>
-                    <li class="nav-item"><a class="nav-link" href="adminpanel/login.php">Login</a></li>
-                <?php endif; ?>
-            </ul>
+                    <li class="nav-item">
+                        <strong><a class="nav-link text-white fs-5" href="item.php">Produk</a></strong>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fs-5" href="cart.php">
+                            <strong><i class="fas fa-cart-shopping me-1"></i></strong>
+                        </a>
+                    </li>
+                    <?php if (isset($_SESSION['nama'])): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white " style="cursor:pointer;"
+                                data-bs-toggle="dropdown">
+                                <i class="fas fa-user"></i> <?= $_SESSION['nama']; ?>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <?php if ($_SESSION['role'] === 'admin'): ?>
+                                    <li><a class="dropdown-item" href="./adminpanel/index.php">Dashboard Admin</a></li>
+                                <?php endif; ?>
+                                <li><a class="dropdown-item" href="./adminpanel/logout.php">Logout</a></li>
+                            </ul>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item"><a class="nav-link" href="adminpanel/login.php">Login</a></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page 1: Hero Section -->
+        <section class="hero">
+            <h1 class="text-white"><strong>Selamat Datang di Luxia</strong></h1>
+            <p class="fs-4 mt-4 pt-3 px-3 col-8">Luxia siap menemani kamu mengekspresikan gaya unikmu dengan koleksi
+                fashion yang stylish, affordable, dan pastinya <br>anti-mainstream!</p>
+        </section>
+
+        <section class="about-section">
+            <div class="about-container">
+                <!-- Gambar Kiri -->
+                <div class="about-image"></div>
+
+                <!-- Teks Kanan -->
+                <div class="about-text">
+                    <h2 class="tentang-kami">Tentang Kami</h2>
+                    <p>
+                        Kami hadir untuk mereka yang ingin tampil standout tanpa harus terlihat berlebihan, tetap
+                        stylish namun terjangkau. Tim kami secara aktif mengikuti tren dan produk-produk terkini yang
+                        sedang viral, sehingga kamu tidak akan tertinggal dalam dunia fashion
+                        dan lifestyle. Di <strong>Luxia</strong>, kami percaya bahwa setiap orang punya karakter unik,
+                        dan kami ada untuk membantu mengekspresikan karakter itu dengan penuh percaya diri.
+                    </p>
+                </div>
+            </div>
+        </section>
 
 
+        <!-- Page 2: Category Section -->
+        <section class="category-section">
+            <strong>
+                <h2 class=" p-3 ">Kategori Produk Kami</h2>
+            </strong>
+            <div class="category-grid" id="Kategori">
+                <div class="category ">
+                    <img src="image/cowok_berwarna.jpg " alt="Men ">
+                    <a href="men.php " class="category-btn ">PRIA</a>
+                </div>
+                <div class="category ">
+                    <img src="image/bocil_berwarna.jpeg " alt="Kids ">
+                    <a href="kids.php " class="category-btn ">ANAK-ANAK</a>
+                </div>
+                <div class="category ">
+                    <img src="image/cewek_berwarna.jpg " alt="Women ">
+                    <a href="women.php " class="category-btn ">WANITA</a>
+                </div>
+            </div>
+        </section>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const quantities = [0, 0, 0];
-    function increaseQuantity(index) {
-        quantities[index]++;
-        document.getElementById(`quantity-${index}`).innerText = quantities[index];
-    }
-    function decreaseQuantity(index) {
-        if (quantities[index] > 0) {
-            quantities[index]--;
+        <!-- Our Team Section -->
+        <section class="team-section ">
+            <h2 class="team-title ">OUR TEAM</h2>
+
+            <div class="team-grid ">
+                <div class="team-card ">
+                    <h3>Arya</h3>
+                    <p><strong>Prodi :</strong> S1 Sistem Informasi</p>
+                    <p><strong>NIM :</strong> 243026018</p>
+                    <p class="role "> UI/UX & Frontend Dev</p>
+                </div>
+                <div class="team-card ">
+                    <h3>Yanuar</h3>
+                    <p><strong>Prodi :</strong> S1 Sistem Informasi</p>
+                    <p><strong>NIM :</strong> 243026017</p>
+                    <p class="role "> Backend Dev</p>
+                </div>
+                <div class="team-card ">
+                    <h3>Agil</h3>
+                    <p><strong>Prodi :</strong> S1 Sistem Informasi</p>
+                    <p><strong>NIM :</strong> 243026016</p>
+                    <p class="role "> Tester & Logo Designer</p>
+                </div>
+            </div>
+
+            <div class="team-grid mt-4 ">
+                <div class="team-card ">
+                    <h3>Tika</h3>
+                    <p><strong>Prodi :</strong> S1 Sistem Informasi</p>
+                    <p><strong>NIM :</strong> 243026019</p>
+                    <p class="role "> Content Writer</p>
+                </div>
+                <div class="team-card ">
+                    <h3>Hendrik</h3>
+                    <p><strong>Prodi :</strong> S1 Sistem Informasi</p>
+                    <p><strong>NIM :</strong> 243026013</p>
+                    <p class="role "> Asset Collector</p>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer ">
+        <div class="footer-container ">
+            <div class="footer-left ">
+                <img src="image/luxia_fix.png " alt="Luxia Logo " width="100 " height="43 " class=" ">
+                <p class="footer-desc ">
+                    Tampil beda dan penuh gaya hanya di <strong>Luxia!</strong> <br>Your Vibe, Our Style, Pure Luxia.
+                </p>
+            </div>
+            <div class="footer-right ">
+                <p><i class="fas fa-map-marker-alt me-2 "></i>Surakarta, Jawa Tengah, Indonesia</p>
+                <p><i class="fas fa-phone-alt me-2 "></i>+62 813-2890-7166</p>
+            </div>
+        </div>
+        <div class="footer-bottom ">
+            <p>&copy; 2025 Luxia. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const quantities = [0, 0, 0];
+        function increaseQuantity(index) {
+            quantities[index]++;
             document.getElementById(`quantity-${index}`).innerText = quantities[index];
         }
-    }
-    function buyProduct(index) {
-        if (quantities[index] > 0) {
-            alert(`Anda membeli ${quantities[index]} produk!`);
-            quantities[index] = 0;
-            document.getElementById(`quantity-${index}`).innerText = 0;
-        } else {
-            alert('Silakan pilih jumlah produk terlebih dahulu.');
+        function decreaseQuantity(index) {
+            if (quantities[index] > 0) {
+                quantities[index]--;
+                document.getElementById(`quantity-${index}`).innerText = quantities[index];
+            }
         }
-    }
-</script>
+        function buyProduct(index) {
+            if (quantities[index] > 0) {
+                alert(`Anda membeli ${quantities[index]} produk!`);
+                quantities[index] = 0;
+                document.getElementById(`quantity-${index}`).innerText = 0;
+            } else {
+                alert('Silakan pilih jumlah produk terlebih dahulu.');
+            }
+        }
+    </script>
 </body>
+
 </html>

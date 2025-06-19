@@ -72,6 +72,7 @@ h1 {
 .about-image {
     flex: 1 1 300px;
     min-height: 300px;
+    background-image: url('image/gambar1.jpg');
     background-size: cover;
     background-position: center;
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
