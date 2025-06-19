@@ -7,6 +7,7 @@ require "../koneksi.php";
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +26,10 @@ require "../koneksi.php";
         background: rgba(255, 255, 255, 0.9);
         padding: 30px;
         border-radius: 10px;
+        background: rgba(255, 255, 255, 0.85);
+
     }
+
 </style>
 
 <body>
@@ -79,4 +83,5 @@ require "../koneksi.php";
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

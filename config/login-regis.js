@@ -1,7 +1,7 @@
 document.getElementById('loginForm').addEventListener('submit', function (e) {
     e.preventDefault();
     const user = document.getElementById('loginUsername').value;
-    const pass = document.getElementById('loginPassword').value;
+    const pass = document.getElementById('password').value;
     if (user && pass) {
         alert(`Welcome back, ${user}!`);
     } else {
