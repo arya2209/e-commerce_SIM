@@ -2,13 +2,13 @@
 session_start();
 require "koneksi.php";
 
+
 $nama = htmlspecialchars($_GET['nama']);
 
 $queryProduk = mysqli_query($mysqli, "SELECT * FROM produk WHERE nama='$nama'");
 $produk = mysqli_fetch_Array($queryProduk);
 
 $queryProdukTerkait = mysqli_query($mysqli, "SELECT * FROM produk WHERE kategori_id='$produk[kategori_id]' AND id!='$produk[id]' LIMIT 4");
-
 ?>
 
 <!DOCTYPE html>

@@ -59,8 +59,8 @@ $jumlahProduk = mysqli_num_rows($query);
             </div>
 
             <div class="table-responsive mt-5">
-                <table class="table">
-                    <thead>
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
                         <tr>
                             <th>No.</th>
                             <th>Nama</th>

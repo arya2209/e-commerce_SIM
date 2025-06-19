@@ -22,6 +22,11 @@ $user_id = $_SESSION['user_id'];
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
+<style>
+    .table td a.btn {
+        vertical-align: middle;
+    }
+</style>
 
 <body>
 
@@ -99,10 +104,17 @@ $user_id = $_SESSION['user_id'];
                         ");
 
                         $total_harga = 0;
+                        $stok_kurang = false;
+                        $pesan_error = "";
 
                         while ($cart = mysqli_fetch_assoc($query)):
                             $subtotal = $cart['harga'] * $cart['quantity'];
                             $total_harga += $subtotal;
+                               $stok_produk = mysqli_fetch_assoc(mysqli_query($mysqli, "SELECT stok FROM produk WHERE id = {$cart['produk_id']}"))['stok'];
+            if ($cart['quantity'] > $stok_produk) {
+                $stok_kurang = true;
+                $pesan_error .= "Stok produk <b>{$cart['nama']}</b> hanya tersedia <b>$stok_produk</b>, tapi Anda memesan <b>{$cart['quantity']}</b>.<br>";
+            }
                             ?>
                             <tr>
                                 <td>
@@ -129,9 +141,7 @@ $user_id = $_SESSION['user_id'];
                                 <td>Rp<?= number_format($subtotal, 0, ',', '.'); ?></td>
 
                                 <td>
-                                    <a href="checkout.php" class="btn btn-sm btn-success mb-1 w-100">
-                                        Checkout
-                                    </a>
+            
 
                                     <button class="btn btn-sm btn-danger btn-hapus w-100" data-id="<?= $cart['id']; ?>">
                                         Hapus
@@ -143,6 +153,13 @@ $user_id = $_SESSION['user_id'];
                         <tr class="table-secondary text-dark fw-bold">
                             <td colspan="4" class="text-end">Total Harga</td>
                             <td colspan="2">Rp<?= number_format($total_harga, 0, ',', '.'); ?></td>
+                            <td>
+                <?php if ($stok_kurang): ?>
+                    <button class="btn btn-sm btn-danger" id="btnStokKurang">Checkout</button>
+                <?php else: ?>
+                    <a href="checkout.php" class="btn btn-sm btn-primary">Checkout</a>
+                <?php endif; ?>
+            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -150,29 +167,44 @@ $user_id = $_SESSION['user_id'];
         </div>
     </div>
 
-    <!-- SweetAlert Delete Script -->
-    <script>
-        document.querySelectorAll('.btn-hapus').forEach(button => {
-            button.addEventListener('click', function () {
-                const id = this.dataset.id;
-                Swal.fire({
-                    title: 'Hapus produk dari keranjang?',
-                    text: "Tindakan ini tidak dapat dibatalkan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, hapus'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = `hapus_cart.php?id=${id}`;
-                    }
-                });
+<!-- SweetAlert Script -->
+<script>
+    // Tombol hapus
+    document.querySelectorAll('.btn-hapus').forEach(button => {
+        button.addEventListener('click', function () {
+            const id = this.dataset.id;
+            Swal.fire({
+                title: 'Hapus produk dari keranjang?',
+                text: "Tindakan ini tidak dapat dibatalkan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `hapus_cart.php?id=${id}`;
+                }
             });
         });
-    </script>
+    });
+
+    // Tombol checkout dicegah jika stok tidak cukup
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnStokKurang = document.getElementById("btnStokKurang");
+        if (btnStokKurang) {
+            btnStokKurang.addEventListener("click", function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Stok Tidak Cukup',
+                    html: <?= json_encode($pesan_error) ?>,
+                    confirmButtonText: 'OK'
+                });
+            });
+        }
+    });
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

@@ -8,6 +8,9 @@
 
     $queryProduk = mysqli_query($mysqli, "SELECT * FROM produk " );
     $jumlahProduk = mysqli_num_rows($queryProduk);
+
+    $queryOrder = mysqli_query($mysqli, "SELECT * FROM orders " );
+    $jumlahOrder = mysqli_num_rows($queryOrder);
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +54,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">
-                   <i class="bi bi-house"></i> Home
+                   <i class="fa fa-home"></i> Home
                 </li>
             </ol>
         </nav>
@@ -95,8 +98,8 @@
                             </div>
                             <div class="col-6 text-white">
                                 <h3 class="fs-2">Order</h3>
-                                <p class="fs-4"> Order</p>
-                                <p><a href="order.php" class="text-white no-decoration">Lihat Detail</a></p>
+                                <p class="fs-4"><?php echo $jumlahOrder; ?> Order</p>
+                                <p><a href="riwayat_order.php" class="text-white no-decoration">Lihat Detail</a></p>
                             </div>
                         </div>
                     </div>
