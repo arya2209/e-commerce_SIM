@@ -62,7 +62,8 @@ while ($row = mysqli_fetch_assoc($query)) {
             </tbody>
         </table>
 
-        <form method="POST" action="proses_checkout.php">
+        <!-- Form checkout -->
+        <form id="checkout-form">
             <div class="mb-3">
                 <label>Nama Penerima</label>
                 <input type="text" name="nama_penerima" class="form-control" required>
@@ -80,9 +81,50 @@ while ($row = mysqli_fetch_assoc($query)) {
                 <input type="email" name="email" class="form-control" required>
             </div>
             <input type="hidden" name="total_harga" value="<?= $total_harga; ?>">
-            <button type="submit" class="btn btn-success">Konfirmasi & Bayar</button>
+            <button type="button" id="pay-button" class="btn btn-primary">Bayar dengan Midtrans (VA BNI)</button>
         </form>
     <?php endif; ?>
 </div>
+
+<!-- Snap.js -->
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-CQQ-EtDjh0kuTyZ0"></script>
+<script>
+document.getElementById('pay-button').addEventListener('click', function () {
+    const form = document.querySelector('#checkout-form');
+    const formData = new FormData(form);
+
+    fetch('get_token.php', {
+        method: 'POST',
+        body: new URLSearchParams(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.token) {
+            snap.pay(data.token, {
+                onSuccess: function (result) {
+                    // Jika pembayaran berhasil, simpan ke database
+                    fetch('proses_checkout.php', {
+                        method: 'POST',
+                        body: new URLSearchParams(formData)
+                    }).then(() => window.location.href = 'checkout_sukses.php');
+                },
+                onPending: function (result) {
+                    alert("Pembayaran tertunda. Cek transaksi Anda.");
+                },
+                onError: function (result) {
+                    alert("Pembayaran gagal.");
+                }
+            });
+        } else {
+            alert("Gagal mendapatkan token Midtrans.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Terjadi kesalahan saat proses pembayaran.");
+    });
+});
+</script>
+
 </body>
 </html>

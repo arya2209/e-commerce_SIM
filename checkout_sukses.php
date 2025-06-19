@@ -1,3 +1,15 @@
+<?php
+session_start();
+require "koneksi.php";
+
+$user_id = $_SESSION['user_id'] ?? null;
+
+if ($user_id) {
+    // Ubah status "pending" menjadi "paid"
+    mysqli_query($mysqli, "UPDATE orders SET status='paid' WHERE user_id = $user_id AND status = 'pending'");
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
